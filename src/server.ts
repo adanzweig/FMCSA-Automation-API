@@ -14,12 +14,13 @@ app.use(express.json());
 const authenticateAPIKey = (req: Request, res: Response, next: any) => {
     const apiKey = req.headers['x-api-key'];
     const validApiKey = process.env.API_KEY;
-
+    // Check if API_KEY is set in the environment variables
     if (!validApiKey) {
         console.warn('API_KEY is not set in the environment variables. Authentication is disabled (NOT RECOMMENDED).');
         return next();
     }
 
+    // Check if API_KEY is set in the request header and matches the environment variable
     if (!apiKey || apiKey !== validApiKey) {
         return res.status(403).json({ error: 'Forbidden: Invalid or missing API Key' });
     }
