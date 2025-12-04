@@ -1,0 +1,26 @@
+{
+  "name": "fmcsa-automation",
+  "version": "1.0.0",
+  "description": "Automation script for FMCSA Clearinghouse",
+  "main": "src/main.ts",
+  "scripts": {
+    "start": "ts-node src/main.ts",
+    "test": "playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^5.0.6",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "otplib": "^12.0.1",
+    "playwright": "^1.57.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.10.0"
+  }
+}

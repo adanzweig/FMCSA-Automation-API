@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  automation:
+    build: .
+    volumes:
+      - ./videos:/app/videos
+      - ./data:/app/data
+    env_file:
+      - .env
+    ports:
+      - "3100:3100"
+    ipc: host # Recommended for Playwright
