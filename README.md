@@ -6,7 +6,7 @@ We use **Playwright** to drive the browser interactions, and the system is wrapp
 
 ## Features
 
-- **Automated Login**: Handles the login process for `team@regulis.ai`.
+- **Automated Login**: Handles the login process for `xxxx@xxx.com`.
 - **Smart 2FA**: Automatically generates and enters TOTP codes (with a manual fallback just in case).
 - **File Upload**: Navigates to the Bulk Query page, selects the correct employer, and uploads your driver data.
 - **API Interface**: Send JSON data directly to the service, and it handles the conversion to TSV and upload.
@@ -30,7 +30,14 @@ The service will start and listen on port **3100**.
 ### 2. Upload Drivers via API
 Once the server is running, you can trigger the automation by sending a POST request.
 
+**Security:**
+You must provide an `x-api-key` header that matches the `API_KEY` environment variable set in your `.env` file or Docker environment.
+
 **Endpoint:** `POST http://localhost:3100/upload-drivers/{company_uuid}`
+
+**Headers:**
+- `Content-Type: application/json`
+- `x-api-key: <YOUR_API_KEY>`
 
 **Example Payload:**
 ```json
@@ -51,6 +58,7 @@ Once the server is running, you can trigger the automation by sending a POST req
 ```bash
 curl -X POST http://localhost:3100/upload-drivers/{company_uuid} \
   -H "Content-Type: application/json" \
+  -H "x-api-key: <YOUR_API_KEY>" \
   -d '[{"LastName": "Doe", "FirstName": "John", "DOB": "01/01/1980", "CDL": "123456789", "Country": "US", "State": "NY", "QueryType": "1"}]'
 ```
 

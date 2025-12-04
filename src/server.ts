@@ -10,6 +10,23 @@ const PORT = 3100;
 // Middleware to parse JSON bodies
 app.use(express.json());
 
+// Middleware for API Key Authentication
+const authenticateAPIKey = (req: Request, res: Response, next: any) => {
+    const apiKey = req.headers['x-api-key'];
+    const validApiKey = process.env.API_KEY;
+
+    if (!validApiKey) {
+        console.warn('API_KEY is not set in the environment variables. Authentication is disabled (NOT RECOMMENDED).');
+        return next();
+    }
+
+    if (!apiKey || apiKey !== validApiKey) {
+        return res.status(403).json({ error: 'Forbidden: Invalid or missing API Key' });
+    }
+
+    next();
+};
+
 // Define the expected structure of the driver data
 interface DriverData {
     LastName: string;
@@ -25,7 +42,7 @@ interface DriverData {
  * POST /upload-drivers/:company_uuid
  * Accepts a JSON array of drivers, converts to TSV, and triggers the automation.
  */
-app.post('/upload-drivers/:company_uuid', async (req: Request, res: Response) => {
+app.post('/upload-drivers/:company_uuid', authenticateAPIKey, async (req: Request, res: Response) => {
     try {
         const { company_uuid } = req.params;
         const drivers: DriverData[] = req.body;
